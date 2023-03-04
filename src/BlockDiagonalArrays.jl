@@ -1,5 +1,9 @@
 module BlockDiagonalArrays
 
-# Write your package code here.
+using LinearAlgebra
+
+export BlockDiagonal
+
+include("blockdiagonal.jl")
 
 end
