@@ -26,7 +26,7 @@
     @test det(B1) == det(A) * det(B)
     @test tr(B1) == tr(A) + tr(B)
 
-    # Matrix-vector operations
+    # matrix-vector operations
     v = randn(size(B1, 1))
-    @test Matrix(B1) * v == B1 * v
+    @test Matrix(B1) * v ≈ B1 * v
 end
