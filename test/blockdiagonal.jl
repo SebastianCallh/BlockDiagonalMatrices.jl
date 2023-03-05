@@ -21,8 +21,9 @@
     @test B1 == B2
     @test B1 !== B3
 
-    # inverse
+    # matrix operations
     @test inv(B1) == BlockDiagonal(inv(A), inv(B))
+    @test det(B1) == det(A) * det(B)
 
     # Matrix-vector operations
     v = randn(size(B1, 1))

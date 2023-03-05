@@ -25,6 +25,7 @@ Base.:(*)(A::BlockDiagonal, v::AbstractVector) = begin
     return u
 end
 
+LinearAlgebra.det(A::BlockDiagonal) = mapreduce(det, *, A.blocks)
 LinearAlgebra.inv(A::BlockDiagonal) = BlockDiagonal(map(inv, A.blocks))
 
 LinearAlgebra.Matrix(A::BlockDiagonal) = begin
