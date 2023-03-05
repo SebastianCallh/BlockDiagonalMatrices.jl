@@ -13,6 +13,18 @@ Base.:(==)(A::BlockDiagonal, B::BlockDiagonal) = begin
     mapreduce(x -> x[1] == x[2], &, zip(A.blocks, B.blocks))
 end
 
+Base.:(*)(A::BlockDiagonal, v::AbstractVector) = begin
+    u = typeof(v)(undef, length(v))
+    offset = 1
+    for b in A.blocks
+        n = offset + size(b, 1) - 1
+        u[offset:n] .= b * view(v, offset:n)
+        offset += size(b, 1)
+    end
+
+    return u
+end
+
 LinearAlgebra.inv(A::BlockDiagonal) = BlockDiagonal(map(inv, A.blocks))
 
 LinearAlgebra.Matrix(A::BlockDiagonal) = begin
@@ -26,4 +38,16 @@ LinearAlgebra.Matrix(A::BlockDiagonal) = begin
     end
 
     return B
+end
+
+LinearAlgebra.:(\)(A::BlockDiagonal, v::AbstractVector) = begin
+    u = Vector{eltype(v)}(undef, length(v))
+    offset = 1
+    for b in A.blocks
+        n = size(b, 1)
+        u[offset, offset+n] .= view(v, offset:offset+n-1)
+        offset += n
+    end
+
+    return u
 end

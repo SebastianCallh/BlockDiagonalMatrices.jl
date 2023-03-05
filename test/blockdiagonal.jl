@@ -22,7 +22,9 @@
     @test B1 !== B3
 
     # inverse
-    v = randn(size(B1, 1))
     @test inv(B1) == BlockDiagonal(inv(A), inv(B))
-    # @test A \ v == Matrix(A) \ v
+
+    # Matrix-vector operations
+    v = randn(size(B1, 1))
+    @test Matrix(B1) * v == B1 * v
 end
