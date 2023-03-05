@@ -1,12 +1,16 @@
 @testset "block diagonal" begin
 
     # construction
-    M1 = rand(1, 1)
-    M2 = rand(1, 1)
+    A = rand(5, 5)
+    B = rand(3, 3)
 
-    B1 = BlockDiagonal(M1, M2)
-    B2 = BlockDiagonal([M1, M2])
-    B3 = BlockDiagonal([M1, [1.0;; 2.0]])
+    B1 = BlockDiagonal(A, B)
+    B2 = BlockDiagonal([A, B])
+    B3 = BlockDiagonal([A, [1.0;; 2.0]])
+
+    # deconstruction
+    @test Matrix(B1) == [A zeros(size(A, 1), size(B, 2)); zeros(size(B, 1), size(A, 2)) B]
+
 
     # equality
     @test B1 == B1
