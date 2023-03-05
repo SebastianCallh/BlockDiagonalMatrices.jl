@@ -1,7 +1,7 @@
-using BlockDiagonalArrays
+using BlockDiagonalMatrices
 using Test
 using LinearAlgebra
 
-@testset "BlockDiagonalArrays.jl" begin
+@testset "BlockDiagonalMatrices.jl" begin
     include("blockdiagonal.jl")
 end

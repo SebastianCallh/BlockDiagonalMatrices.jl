@@ -1,4 +1,4 @@
-name = "BlockDiagonalArrays"
+name = "BlockDiagonalMatrices"
 uuid = "32ee9730-bb89-45f9-a637-279d8ee1049b"
 authors = ["Sebastian Callh <sebastian.callh@gmail.com>"]
 version = "0.1.0"

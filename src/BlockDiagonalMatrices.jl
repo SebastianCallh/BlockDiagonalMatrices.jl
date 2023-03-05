@@ -1,4 +1,4 @@
-module BlockDiagonalArrays
+module BlockDiagonalMatrices
 
 using LinearAlgebra
 
