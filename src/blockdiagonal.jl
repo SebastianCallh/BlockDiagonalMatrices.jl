@@ -35,7 +35,7 @@ LinearAlgebra.det(A::BlockDiagonal) = mapreduce(det, *, A.blocks)
 
 LinearAlgebra.tr(A::BlockDiagonal) = mapreduce(tr, +, A.blocks)
 
-LinearAlgebra.inv(A::BlockDiagonal) = BlockDiagonal(map(inv, A.blocks))
+LinearAlgebra.inv(A::BlockDiagonal) = BlockDiagonal(inv.(A.blocks))
 
 LinearAlgebra.Matrix(A::BlockDiagonal) = begin
     B = zeros(size(A))

@@ -15,6 +15,7 @@
     @test size(B1) == size(A) .+ size(B)
     @test size(B1, 1) == size(A, 1) .+ size(B, 1)
     @test size(B1, 2) == size(A, 2) .+ size(B, 2)
+    @test length(B1) == (5+3)^2
 
     # equality
     @test B1 == B1
