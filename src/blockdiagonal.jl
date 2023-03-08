@@ -32,6 +32,33 @@ Base.:(*)(A::BlockDiagonal, v::AbstractVector) = begin
     return u
 end
 
+Base.:(*)(A::BlockDiagonal, B::AbstractMatrix) = begin
+    T = promote_type(eltype(A), eltype(B))
+    u = Matrix{T}(undef, size(A, 1), size(B, 2))
+    i = 1
+    for b in A.blocks
+        n = i + size(b, 1) - 1
+        u[i:n,:] .= b * view(B, i:n,:)
+        i += size(b, 1)
+    end
+
+    return u
+end
+
+Base.:(*)(A::AbstractMatrix, B::BlockDiagonal) = begin
+    T = promote_type(eltype(A), eltype(B))
+    u = Matrix{T}(undef, size(A, 1), size(B, 2))
+    i = 1
+    for b in B.blocks
+        n = i + size(b, 1) - 1
+        u[:,i:n] .= view(A, :,i:n) * b
+        i += size(b, 1)
+    end
+
+    return u
+end
+
+
 LinearAlgebra.adjoint(A::BlockDiagonal) = BlockDiagonal(adjoint.(A.blocks))
 
 LinearAlgebra.det(A::BlockDiagonal) = mapreduce(det, *, A.blocks)

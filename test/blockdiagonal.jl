@@ -32,6 +32,11 @@
 
     # matrix-vector operations
     v = randn(size(B1, 1))
-    @test Matrix(B1) * v ≈ B1 * v
+    @test B1 * v ≈ Matrix(B1) * v
     @test B1 \ v ≈ Matrix(B1) \ v
+
+    # matrix-matrix operations
+    C = randn(size(B1))
+    @test B1 * C ≈ Matrix(B1) * C
+    @test C * B1 ≈ C * Matrix(B1)
 end
