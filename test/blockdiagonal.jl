@@ -7,6 +7,7 @@
     B1 = BlockDiagonal([A, B])
     B2 = BlockDiagonal([A, B])
     B3 = BlockDiagonal([A, [1.0;; 2.0]])
+    singleton_matrix = BlockDiagonal([A,B,[1.0;;]])
 
     # deconstruction
     @test Matrix(B1) == [A zeros(size(A, 1), size(B, 2)); zeros(size(B, 1), size(A, 2)) B]

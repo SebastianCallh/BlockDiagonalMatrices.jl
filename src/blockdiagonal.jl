@@ -3,7 +3,7 @@ struct BlockDiagonal{T<:AbstractMatrix, F <: Factorization}
     factors::Vector{F}
 
     BlockDiagonal(blocks) = let
-        factors = factorize.(blocks)
+        factors = lu.(blocks)
         new{eltype(blocks), eltype(factors)}(blocks, factors)
     end
 end
