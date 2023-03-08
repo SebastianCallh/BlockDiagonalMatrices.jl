@@ -1,12 +1,18 @@
-struct BlockDiagonal{T<:AbstractMatrix}
+struct BlockDiagonal{T<:AbstractMatrix, F <: Factorization}
     blocks::Vector{T}
+    factors::Vector{F}
+
+    BlockDiagonal(blocks) = let
+        factors = factorize.(blocks)
+        new{eltype(blocks), eltype(factors)}(blocks, factors)
+    end
 end
 
-BlockDiagonal(mats...) = BlockDiagonal(collect(mats))
 
 _dim_size(xs, dim) = mapreduce(x -> size(x, dim), +, xs)
 Base.size(A::BlockDiagonal) = (_dim_size(A.blocks, 1), _dim_size(A.blocks, 2))
 Base.size(A::BlockDiagonal, dim) = _dim_size(A.blocks, dim)
+Base.length(A::BlockDiagonal) = size(A, 1) * size(A, 2)
 
 Base.:(==)(A::BlockDiagonal, B::BlockDiagonal) = begin
     size(A) == size(B) || return false
@@ -44,13 +50,13 @@ LinearAlgebra.Matrix(A::BlockDiagonal) = begin
     return B
 end
 
-LinearAlgebra.:(\)(A::BlockDiagonal, v::AbstractVector) = begin
+LinearAlgebra.:\(A::BlockDiagonal, v::AbstractVector) = begin
     u = Vector{eltype(v)}(undef, length(v))
-    offset = 1
-    for b in A.blocks
-        n = size(b, 1)
-        u[offset, offset+n] .= view(v, offset:offset+n-1)
-        offset += n
+    i = 1
+    for f in A.factors
+        n = size(f, 1)
+        ldiv!(view(u, i:i+n-1), f, view(v, i:i+n-1))
+        i += n
     end
 
     return u

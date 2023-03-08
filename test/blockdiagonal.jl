@@ -4,7 +4,7 @@
     A = rand(5, 5)
     B = rand(3, 3)
 
-    B1 = BlockDiagonal(A, B)
+    B1 = BlockDiagonal([A, B])
     B2 = BlockDiagonal([A, B])
     B3 = BlockDiagonal([A, [1.0;; 2.0]])
 
@@ -22,11 +22,12 @@
     @test B1 !== B3
 
     # matrix operations
-    @test inv(B1) == BlockDiagonal(inv(A), inv(B))
+    @test inv(B1) == BlockDiagonal([inv(A), inv(B)])
     @test det(B1) == det(A) * det(B)
     @test tr(B1) == tr(A) + tr(B)
 
     # matrix-vector operations
     v = randn(size(B1, 1))
     @test Matrix(B1) * v ≈ B1 * v
+    @test B1 \ v ≈ Matrix(B1) \ v
 end
