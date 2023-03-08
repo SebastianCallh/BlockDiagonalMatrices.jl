@@ -27,6 +27,8 @@
     @test inv(B1) == BlockDiagonal([inv(A), inv(B)])
     @test det(B1) == det(A) * det(B)
     @test tr(B1) == tr(A) + tr(B)
+    @test B1' == BlockDiagonal([A', B'])
+
 
     # matrix-vector operations
     v = randn(size(B1, 1))

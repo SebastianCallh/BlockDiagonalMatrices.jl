@@ -31,6 +31,8 @@ Base.:(*)(A::BlockDiagonal, v::AbstractVector) = begin
     return u
 end
 
+LinearAlgebra.adjoint(A::BlockDiagonal) = BlockDiagonal(adjoint.(A.blocks))
+
 LinearAlgebra.det(A::BlockDiagonal) = mapreduce(det, *, A.blocks)
 
 LinearAlgebra.tr(A::BlockDiagonal) = mapreduce(tr, +, A.blocks)
