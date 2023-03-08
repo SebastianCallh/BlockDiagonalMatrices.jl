@@ -8,6 +8,7 @@ struct BlockDiagonal{T<:AbstractMatrix, F <: Factorization}
     end
 end
 
+Base.eltype(A::BlockDiagonal{T}) where T = eltype(T)
 
 _dim_size(xs, dim) = mapreduce(x -> size(x, dim), +, xs)
 Base.size(A::BlockDiagonal) = (_dim_size(A.blocks, 1), _dim_size(A.blocks, 2))

@@ -28,7 +28,7 @@
     @test det(B1) == det(A) * det(B)
     @test tr(B1) == tr(A) + tr(B)
     @test B1' == BlockDiagonal([A', B'])
-
+    @test eltype(B1) == Float64
 
     # matrix-vector operations
     v = randn(size(B1, 1))
